@@ -1,0 +1,16 @@
+{
+    "url_cctv": "https://2453453543",
+    "nama_perusahaan": "Tabarokta",
+    "lokasi_parkir": "",
+    "id_pintu_Masuk": "",
+    "printer_settings": {
+        "vendor_id": "0x0416",
+        "product_id": "0x5011",
+        "endpoint_in": "0x82",
+        "endpoint_out": "0x01"
+    },
+    "printer_settings[vendor_id]": "",
+    "printer_settings[product_id]": "",
+    "printer_settings[endpoint_in]": "",
+    "printer_settings[endpoint_out]": ""
+}

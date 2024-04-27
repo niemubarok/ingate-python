@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parallel Port Control</title>
+</head>
+<body>
+    <h1>Parallel Port Control</h1>
+    <form method="post">
+        <h2>Simulasi INPUT</h2>
+        <button name="pin" value="loop1" type="submit" formaction="/update?status=on">loop1 ON</button>
+        <button name="pin" value="loop1" type="submit" formaction="/update?status=off">loop1 OFF</button>
+        <button name="pin" value="loop2" type="submit" formaction="/update?status=on">loop2 ON</button>
+        <button name="pin" value="loop2" type="submit" formaction="/update?status=off">loop2 OFF</button>
+        <button name="pin" value="struk" type="submit" formaction="/update?status=on">struk ON</button>
+        <button name="pin" value="struk" type="submit" formaction="/update?status=off">struk OFF</button>
+        <button name="pin" value="is_able_to_print" type="submit" formaction="/update?status=on">is_able_to_print ON</button>
+        <button name="pin" value="is_able_to_print" type="submit" formaction="/update?status=off">is_able_to_print OFF</button>
+        
+
+        <h2>Simulasi OUTPUT</h2>
+        <button name="bit" value="0" type="submit" formaction="/update?state=on">TRIG1 ON</button>
+       <button name="bit" value="0" type="submit" formaction="/update?state=off">TRIG1 OFF</button>
+       <button name="bit" value="3" type="submit" formaction="/update?state=on">TRIG2 ON</button>
+       <button name="bit" value="3" type="submit" formaction="/update?state=off">TRIG2 OFF</button>
+       <button name="bit" value="2" type="submit" formaction="/update?state=on">LIVE ON</button>
+       <button name="bit" value="2" type="submit" formaction="/update?state=off">LIVE OFF</button>
+       <button name="bit" value="5" type="submit" formaction="/update?state=off">Pin 9 ON</button>
+       <button name="bit" value="5" type="submit" formaction="/update?state=on">Pin 9 OFF</button>
+    </form>
+    <h2>Input Pins:</h2>
+    <ul>
+        <li id="pin12">Pin 12 (D4):</li>
+        <li id="pin13">Pin 13 (D5):</li>
+        <li id="pin10">Pin 10 (D2):</li>
+        <li id="pin11">Pin 11 (D3):</li>
+    </ul>
+    <script>
+        var eventSource = new EventSource("/pin_status");
+        eventSource.onmessage = function(event) {
+            var pinStatus = JSON.parse(event.data);
+            document.getElementById("pin12").innerText = "Pin 12 (D4): " + pinStatus.pin12;
+            document.getElementById("pin13").innerText = "Pin 13 (D5): " + pinStatus.pin13;
+            document.getElementById("pin10").innerText = "Pin 10 (D2): " + pinStatus.pin10;
+            document.getElementById("pin11").innerText = "Pin 11 (D3): " + pinStatus.pin11;
+        };
+    </script>
+</body>
+</html>

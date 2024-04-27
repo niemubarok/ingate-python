@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Settings Page</title>
+</head>
+<body>
+    <h1>Settings</h1>
+    <form action="/save_config" method="post">
+        <label for="url_cctv">URL CCTV</label>
+        <input type="text" id="url_cctv" name="url_cctv"><br><br>
+
+        <label for="lokasi_parkir">Lokasi Parkir:</label>
+        <input type="text" id="lokasi_parkir" name="lokasi_parkir"><br><br>
+
+        <label for="id_pintu_Masuk">ID Pintu Masuk:</label>
+        <input type="text" id="id_pintu_Masuk" name="id_pintu_Masuk"><br><br>
+
+        <label for="printer_settings[vendor_id]">Vendor ID Printer:</label>
+        <input type="text" id="printer_settings[vendor_id]" name="printer_settings[vendor_id]"><br><br>
+
+        <label for="printer_settings[product_id]">Product ID Printer:</label>
+        <input type="text" id="printer_settings[product_id]" name="printer_settings[product_id]"><br><br>
+
+        <label for="printer_settings[endpoint_in]">Endpoint IN Printer:</label>
+        <input type="text" id="printer_settings[endpoint_in]" name="printer_settings[endpoint_in]"><br><br>
+
+        <label for="printer_settings[endpoint_out]">Endpoint OUT Printer:</label>
+        <input type="text" id="printer_settings[endpoint_out]" name="printer_settings[endpoint_out]"><br><br>
+
+        <input type="submit" value="Save Settings">
+    </form>
+</body>
+</html>

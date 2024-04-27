@@ -1,0 +1,9 @@
+include README.md
+include app.py
+include .env
+include config.json
+recursive-include templates *
+recursive-include static *
+recursive-include modules *
+recursive-include lib *
+
