@@ -1,7 +1,7 @@
 import json
 import threading
 from flask import Flask, flash, redirect, render_template, request, jsonify, url_for
-from modules import hardware_control, database_operations, port_operations
+from modules import hardware_control, database_operations, port_operations, print_operations, barcode_generation
 import os
 
 app = Flask(__name__)
@@ -63,6 +63,12 @@ def save_config():
 
 if __name__ == '__main__':
     # Start background thread to listen pin status
+    # hardware_control.run_audio('carengine.wav')
+    # print_operations.print_struk('123456789')
+    # hardware_control.pic_body_masuk()
+    # rand = barcode_generation.random_number()
+    # database_operations.store_data_transaksi(rand)
+    hardware_control.send_off_to_bits_0_and_3()
     pin_status_thread = threading.Thread(target=hardware_control.listen_input_pins, daemon=True)
     pin_status_thread.start()
     # database_operations.store_data_transaksi(1)

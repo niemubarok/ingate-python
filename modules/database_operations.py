@@ -12,7 +12,7 @@ def store_data_transaksi(random_number):
     # print(newId)
     current_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     # random_number = barcode_generation.random_number()
-
+    print(random_number)
     data_to_store = {
         "id": newId,
         "no_pol": random_number,
@@ -32,9 +32,9 @@ def store_data_transaksi(random_number):
         "bayar_keluar": 0,
         "jenis_system": None,
         "tanggal": current_date,
-        "pic_body_masuk": None,
+        "pic_body_masuk": hardware_control.pic_body_masuk(),
         "pic_body_keluar": None,
-        "pic_driver_masuk": hardware_control.pic_body_masuk(),
+        "pic_driver_masuk":None ,
         "pic_driver_keluar": None,
         "pic_no_pol_masuk": None,
         "pic_no_pol_keluar": None,
