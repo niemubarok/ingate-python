@@ -1,66 +1,43 @@
 import json
-import io
 from datetime import datetime
-from PIL import ImageFont, Image
-import win32print
-import win32ui
+from escpos.printer import Usb
 import barcode
 from barcode.writer import ImageWriter
+import usb.util
 
 def print_struk(barcode_data):
+    # Load configuration from JSON file
     def load_config(file_path='config.json'):
         with open(file_path) as file:
             return json.load(file)
 
     config = load_config()
 
-    font_size = 15
-    font_path = 'C:/Windows/Fonts/arial.ttf'
-    font = ImageFont.truetype(font_path, font_size)
+    # Initialize the USB printer
+    # Replace 'idVendor' and 'idProduct' with the values from listdevs
+    p = Usb(0x0fe6, 0x811e)
 
-    printer_name = win32print.GetDefaultPrinter()
-    hprinter = win32print.OpenPrinter(printer_name)
-    try:
-        hprinterdc = win32ui.CreateDC()
-        hprinterdc.CreatePrinterDC(printer_name)
-        
-        header = f"{config['nama_perusahaan']}\n{config['lokasi_parkir']}\n\n"
-        hprinterdc.StartDoc("Receipt")
-        hprinterdc.StartPage()
-        
-        # Draw company header
-        hprinterdc.SelectObject(font)  # Set font
-        hprinterdc.TextOut(100, 100, header)
-        
-        # Draw entrance ID and timestamp
-        now = datetime.now()
-        text = (
-            f"Entrance ID: {config['id_pintu_Masuk']}\n"
-            f"{now.strftime('%Y-%m-%d %H:%M:%S')}\n"
-        )
-        hprinterdc.TextOut(100, 200, text)
-        
-        # Generate and print barcode
-        code128 = barcode.Code128(barcode_data, writer=ImageWriter())
-        barcode_buffer = io.BytesIO()
-        code128.write(barcode_buffer)
-        barcode_image = Image.open(barcode_buffer)
-        
-        # Convert barcode image to monochrome (1-bit) for printing
-        barcode_image = barcode_image.convert("1")
-        
-        # Get the dimensions of the barcode image
-        width, height = barcode_image.size
-        
-        # Print the barcode image
-        hprinterdc.StretchBlt((100, 300, 100 + width, 300 + height), barcode_image, (0, 0, width, height), win32con.SRCCOPY)
-        
-        hprinterdc.EndPage()
-        hprinterdc.EndDoc()
-    except Exception as e:
-        print(f"Error with the printer: {str(e)}")
-    finally:
-        win32print.ClosePrinter(hprinter)
+    # Print company header
+    p.set(align='center', font='a', width=1, height=1)
+    p.text(f"{config['nama_perusahaan']}\n{config['lokasi_parkir']}\n\n")
 
-# Contoh pemanggilan fungsi
-print_struk("1234567890")
+    # Print entrance ID and timestamp
+    p.set(align='left', font='b', width=2, height=2)
+    now = datetime.now()
+    p.text(f"Entrance ID: {config['id_pintu_Masuk']}\n")
+    p.text(now.strftime('%Y-%m-%d %H:%M:%S') + "\n\n")
+
+    # Generate barcode
+    code128 = barcode.Code128(barcode_data, writer=ImageWriter())
+    barcode_buffer = code128.render()
+
+    # Print barcode
+    endpoint_address = 0x81
+    endpoint_address_int = usb.util.endpoint_address(endpoint_address)
+    p.image(barcode_buffer, impl='bitImageRaster', fragment_height=256, in_ep=endpoint_address_int)
+
+    # Cut the paper
+    p.cut()
+
+# Example usage
+# print_struk("1234567890128")

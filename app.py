@@ -3,6 +3,8 @@ import threading
 from flask import Flask, flash, redirect, render_template, request, jsonify, url_for
 from modules import hardware_control, database_operations, port_operations, print_operations, barcode_generation
 import os
+import tempfile
+temp_dir = tempfile.mkdtemp()
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -68,10 +70,16 @@ if __name__ == '__main__':
     # hardware_control.pic_body_masuk()
     # rand = barcode_generation.random_number()
     # database_operations.store_data_transaksi(rand)
-    hardware_control.send_off_to_bits_0_and_3()
-    pin_status_thread = threading.Thread(target=hardware_control.listen_input_pins, daemon=True)
-    pin_status_thread.start()
+    # hardware_control.send_off_to_bits_0_and_3()
+    # pin_status_thread = threading.Thread(target=hardware_control.listen_input_pins, daemon=True)
+    # pin_status_thread.start()
+    # print_operations.print_struk('1234567890128')
+    print_operations.print_file('teststruk.pdf')
+    
+
+# Clean up temporary directory
+    # os.rmdir(temp_dir)
     # database_operations.store_data_transaksi(1)
     
     # Start Flask server
-    app.run(debug=True, port=5000)
+    # app.run(debug=True, port=5000)

@@ -139,6 +139,8 @@ def listen_input_pins():
 
 def handle_struk_button():
     global is_able_to_print
+
+    
     if is_able_to_print:
         print("Struk button pressed")
         barcode_data = random_number()
